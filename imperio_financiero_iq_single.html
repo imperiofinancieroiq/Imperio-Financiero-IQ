@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Imperio Financiero IQ</title>
+<style>
+body{font-family:Arial;background:#0b0f14;color:#fff;padding:20px}
+button{padding:10px;margin:5px;background:#22c55e;border:none;color:#000;cursor:pointer}
+.card{background:#121922;padding:15px;border-radius:10px;margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<h1>Imperio Financiero IQ</h1>
+<div id="game"></div>
+
+<script>
+let state={
+money:1000,savings:200,debt:1500,stress:40,month:1
+};
+
+function render(){
+document.getElementById("game").innerHTML=`
+<div class="card">
+Mes: ${state.month}<br>
+Dinero: $${state.money}<br>
+Ahorro: $${state.savings}<br>
+Deuda: $${state.debt}<br>
+Estrés: ${state.stress}
+</div>
+
+<div class="card">
+<button onclick="decision(1)">Gastar $200</button>
+<button onclick="decision(2)">Ahorrar $200</button>
+<button onclick="decision(3)">Pagar deuda</button>
+</div>
+`;
+}
+
+function decision(type){
+if(type==1){state.money-=200;state.stress+=5;}
+if(type==2){state.savings+=200;state.money-=200;state.stress-=3;}
+if(type==3){state.debt-=200;state.money-=200;state.stress-=4;}
+
+nextMonth();
+}
+
+function nextMonth(){
+state.month++;
+state.money+=2000;
+state.money-=1000;
+
+if(state.money<0){state.debt+=Math.abs(state.money);state.money=0;}
+
+if(state.month>12){
+alert("Juego terminado");
+return;
+}
+
+render();
+}
+
+render();
+</script>
+
+</body>
+</html>
